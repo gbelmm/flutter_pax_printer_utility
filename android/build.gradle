@@ -23,6 +23,10 @@ apply plugin: 'com.android.library'
 
 android {
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     if (project.android.hasProperty("namespace")) {
         namespace("com.mahatech.flutter_pax_printer_utility")
     }
@@ -40,6 +44,6 @@ android {
 }
 
 dependencies {
-    implementation files('lib/NeptuneLiteApi_V4.09.00_20240909.jar')
+    implementation files('libs/NeptuneLiteApi_V4.09.00_20240909.jar')
     implementation 'com.google.zxing:core:3.5.0'
 }
