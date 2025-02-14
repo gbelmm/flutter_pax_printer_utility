@@ -114,16 +114,7 @@ public class PrinterUtility {
             Log.e("BITMAP", String.valueOf(e));
         }
     }
-
-    public void printBitmapFromString(String text, int width, int height) {
-        try {
-             
-            Log.i("BITMAP",  "PRINT BITMAP");
-        } catch (PrinterDevException e) {
-            e.printStackTrace();
-            Log.e("BITMAP", String.valueOf(e));
-        }
-    }
+ 
 
 
     public String start() {
