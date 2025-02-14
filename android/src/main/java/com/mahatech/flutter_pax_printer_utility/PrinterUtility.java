@@ -117,8 +117,7 @@ public class PrinterUtility {
 
     public void printBitmapFromString(String text, int width, int height) {
         try {
-            QRCodeUtil qrcodeUtility = new QRCodeUtil();
-            printer.printBitmap(qrcodeUtility.encodeAsBitmap(text, width, height ));
+             
             Log.i("BITMAP",  "PRINT BITMAP");
         } catch (PrinterDevException e) {
             e.printStackTrace();

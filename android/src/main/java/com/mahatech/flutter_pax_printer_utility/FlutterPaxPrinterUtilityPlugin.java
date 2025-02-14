@@ -25,7 +25,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
   /// when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
   private static PrinterUtility printerUtility;
-  private static QRCodeUtil qrcodeUtility;
+ 
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -33,7 +33,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
     channel.setMethodCallHandler(this);
     printerUtility =
             new PrinterUtility(flutterPluginBinding.getApplicationContext());
-            qrcodeUtility = new QRCodeUtil();
+          
   }
 
   @Override
@@ -59,46 +59,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       printerUtility.step(150);
       final String status = printerUtility.start();
       result.success(status);
-    } else if (call.method.equals("printReceiptWithQr")) { // instant print receipt
-      String text = call.argument("text");
-      String qrString = call.argument("qr_string");
-      printerUtility.getDal();
-      printerUtility.init();
-      printerUtility.fontSet(EFontTypeAscii.FONT_8_16, EFontTypeExtCode.FONT_16_16);
-      printerUtility.spaceSet(parseByte("0"), parseByte("10"));
-      printerUtility.setGray(1);
-      printerUtility.printStr(text, null);
-      printerUtility.printStr("", null);
-      if (qrString != null) {
-        printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, 512, 512 ));
-        printerUtility.printStr("", null);
-      }
-      printerUtility.step(150);
-      final String status = printerUtility.start();
-      result.success(status);
-    } else if (call.method.equals("printQR")) { // instant print qrcode
-      String text1 = call.argument("text1");
-      String text2 = call.argument("text2");
-      String text3 = call.argument("text3");
-      String text4 = call.argument("text4");
-      String qrString = call.argument("qr_string");
-      printerUtility.getDal();
-      printerUtility.init();
-      printerUtility.fontSet(EFontTypeAscii.FONT_8_16, EFontTypeExtCode.FONT_16_16);
-      printerUtility.spaceSet(parseByte("0"), parseByte("10"));
-      printerUtility.setGray(1);
-      printerUtility.printStr(text1, null);
-      printerUtility.printStr("", null);
-      printerUtility.printStr(text2, null);
-      printerUtility.printStr(text3, null);
-      printerUtility.printStr("", null);
-      printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, 512, 512 ));
-      printerUtility.printStr("", null);
-      printerUtility.printStr(text4, null);
-      printerUtility.step(150);
-      final String status = printerUtility.start();
-      result.success(status);
-    } else if (call.method.equals("fontSet")) {
+    }  else if (call.method.equals("fontSet")) {
       String asciiFontTypeString = call.argument("asciiFontType");
       String cFontTypeString = call.argument("cFontType");
 
@@ -174,33 +135,12 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
       printerUtility.printBitmap(bitmap);
       result.success(true);
-    } else if (call.method.equals("printImageUrl")) {
-      String url = call.argument("url");
-      Thread thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-          try  {
-            printerUtility.printBitmap(qrcodeUtility.getBitmapFromURL(url));
-            result.success(true);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      });
-
-      thread.start();
-    }  else if (call.method.equals("printImageAsset")) {
+    }    else if (call.method.equals("printImageAsset")) {
       byte[] bytes = call.argument("bitmap");
       Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
       printerUtility.printBitmap(bitmap);
       result.success(true);
-    } else if (call.method.equals("printQRCode")) {
-      String qrString = call.argument("text");
-      int width = call.argument("width");
-      int height = call.argument("height");
-      printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, width, height ));
-      result.success(true);
-    } else if (call.method.equals("start")) {
+    }   else if (call.method.equals("start")) {
       final String status = printerUtility.start();
       result.success(status);
     } else if (call.method.equals("leftIndents")) {
