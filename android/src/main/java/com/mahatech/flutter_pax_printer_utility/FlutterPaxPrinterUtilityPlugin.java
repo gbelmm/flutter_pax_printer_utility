@@ -135,7 +135,22 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
       printerUtility.printBitmap(bitmap);
       result.success(true);
-    }    else if (call.method.equals("printImageAsset")) {
+    }  else if (call.method.equals("printImageUrl")) {
+      String url = call.argument("url");
+      Thread thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try  {
+            printerUtility.printBitmap(qrcodeUtility.getBitmapFromURL(url));
+            result.success(true);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      });
+
+      thread.start();
+    }   else if (call.method.equals("printImageAsset")) {
       byte[] bytes = call.argument("bitmap");
       Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
       printerUtility.printBitmap(bitmap);
