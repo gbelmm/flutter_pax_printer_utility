@@ -25,6 +25,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
   /// when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
   private static PrinterUtility printerUtility;
+  private static QRCodeUtil qrcodeUtility;
  
 
   @Override
@@ -33,6 +34,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
     channel.setMethodCallHandler(this);
     printerUtility =
             new PrinterUtility(flutterPluginBinding.getApplicationContext());
+            qrcodeUtility = new QRCodeUtil();
           
   }
 
